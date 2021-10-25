@@ -1,0 +1,13 @@
+---
+
+- hosts: nsapoold05
+  tasks:
+
+  - name: change server hostname to nsapoold05
+    ansible.builtin.hostname:
+      name: nsapoold05
+  - name: change server name in hosts file
+    ansible.builtin.replace:
+      path: /etc/hosts
+      regexp: 'debian'
+      replace: 'nsapoold05'

@@ -1,0 +1,29 @@
+---
+
+- hosts: nsapoold05
+  tasks:
+
+  - name: Install mariadb
+    apt:
+      name: mariadb-server
+      state: latest
+  - name: install python mysqldb
+    apt:
+      name: python-mysqldb
+  - name: Create db user with password and all db privileges
+    community.mysql.mysql_user:
+      name: nsad04
+      password: '*081A273B54AA0E843303861E1EBAE7E9D7466EDA'
+      encrypted: yes
+      priv: '*.*:ALL'
+      state: present
+  - name: create new db named nsapool
+    community.mysql.mysql_db:
+       name: nsapool
+       state: present
+  - name: import db nsapool
+    shell: mysql nsapool < /var/www/html/nsapool.sql
+  - name: remove sql file from /var/www/html
+    ansible.builtin.file:
+      path: /var/www/html/nsapool.sql
+      state: absent

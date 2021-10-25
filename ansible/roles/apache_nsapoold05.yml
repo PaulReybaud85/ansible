@@ -1,0 +1,31 @@
+---
+
+- hosts: nsapoold05
+  tasks:
+
+  - name: Install apache2 package
+    apt:
+      name: apache2
+      state: latest
+  - name: install libapache2-mod-php7.3
+    apt:
+      name: libapache2-mod-php7.3
+  - name: extract app.zip into /var/www/html
+    ansible.builtin.unarchive:
+      src: /home/polo/Epitech/T-NSA-500-MAR-5-1-nsapoold05-paul.reybaud/app.zip
+      dest: /var/www/html
+  - name: vhost configuration app 
+    copy:
+      src: /home/polo/Epitech/T-NSA-500-MAR-5-1-nsapoold05-paul.reybaud/app.conf
+      dest: /etc/apache2/sites-available/
+  - name: activate vhost
+    command: a2ensite app.conf
+  - name: deactivate default vhost
+    command: a2dissite 000-default.conf
+    notify:
+      - restart apache  
+  handlers:
+  - name: restart apache
+    service:
+      name: apache2
+      state: restarted

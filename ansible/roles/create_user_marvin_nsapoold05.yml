@@ -1,0 +1,13 @@
+---
+
+- hosts: nsapoold05
+  tasks:
+
+  - name: create user marvin
+    user:
+      name: marvin
+      password: '$6$OWa0XQRF5$g0al8R.m5GNTrA5YPJ/o1c5bblRjqTCGghuy4kzfGYx2WdrM1EAJ3i9EQgrOQiRFsnElEwXPp2899jT652hcE0'
+      create_home: yes
+      home: /home/marvin    
+      groups: "sudo"
+      shell: /bin/bash
